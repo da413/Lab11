@@ -26,8 +26,24 @@ public class Pathfinding : MonoBehaviour
         { 0, 0, 0, 0, 0 }
     };
 
+    public void AddObstacle(Vector2Int position)
+    {
+        for(int y = 0; y<grid.GetLength(0); y++)
+        {
+            for(int x = 0; x<grid.GetLength(1); x++)
+            {
+                if(position.y == y && position.x == x) //does the position I input match the grid coordinates?
+                {
+                    grid[position.y, position.x] = 1; //if so, then change that positions value to 1 to indicate its an obstacle
+                }
+            }
+        }
+
+    }
+
     private void Start()
     {
+        AddObstacle(new Vector2Int(3,4)); //input coordinates here 
         FindPath(start, goal);
     }
 
