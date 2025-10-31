@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,10 @@ public class Pathfinding : MonoBehaviour
     private Vector2Int goal = new Vector2Int(4, 4);
     private Vector2Int next;
     private Vector2Int current;
+
+    private int xCoord;
+    private int yCoord;
+    Coroutine ObstacleLoop;
 
     private Vector2Int[] directions = new Vector2Int[]
     {
@@ -43,7 +48,12 @@ public class Pathfinding : MonoBehaviour
 
     private void Start()
     {
-        AddObstacle(new Vector2Int(3,4)); //input coordinates here 
+        //FindPath(start, goal);
+        ObstacleLoop = StartCoroutine(ObstaclePopulate());
+    }
+
+    void Update()
+    {
         FindPath(start, goal);
     }
 
@@ -127,5 +137,18 @@ public class Pathfinding : MonoBehaviour
         }
         path.Add(start);
         path.Reverse();
+    }
+
+    IEnumerator ObstaclePopulate()
+    {
+        while(current != goal) //while the mover is approaching the goal
+        {
+            xCoord = Random.Range(0, grid.GetLength(1) + 1);
+            yCoord = Random.Range(0, grid.GetLength(0) + 1);
+
+            AddObstacle(new Vector2Int(xCoord, yCoord));
+            yield return new WaitForSeconds(0.5f);
+        }
+        
     }
 }
