@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pathfinding : MonoBehaviour
+public class PathfindingDynamicObstacles : MonoBehaviour
 {
     private List<Vector2Int> path = new List<Vector2Int>();
-    private Vector2Int start = new Vector2Int(0, 1);
-    private Vector2Int goal = new Vector2Int(4, 4);
+    [SerializeField] private Vector2Int start = new Vector2Int(0, 1);
+    [SerializeField] private Vector2Int goal = new Vector2Int(4, 4);
     private Vector2Int next;
     private Vector2Int current;
 
@@ -43,12 +43,10 @@ public class Pathfinding : MonoBehaviour
                 }
             }
         }
-
     }
 
     private void Start()
     {
-        //FindPath(start, goal);
         ObstacleLoop = StartCoroutine(ObstaclePopulate());
     }
 
@@ -141,7 +139,7 @@ public class Pathfinding : MonoBehaviour
 
     IEnumerator ObstaclePopulate()
     {
-        while(current != goal) //while the mover is approaching the goal
+        while (current != goal) //while the mover is approaching the goal
         {
             xCoord = Random.Range(0, grid.GetLength(1) + 1);
             yCoord = Random.Range(0, grid.GetLength(0) + 1);
@@ -149,6 +147,6 @@ public class Pathfinding : MonoBehaviour
             AddObstacle(new Vector2Int(xCoord, yCoord));
             yield return new WaitForSeconds(0.5f);
         }
-        
+
     }
 }
